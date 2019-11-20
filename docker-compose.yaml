@@ -45,8 +45,8 @@ services:
       ZOO_PORT: 2181
       ZOO_SERVERS: server.1=zoo1:2888:3888
     volumes:
-      - ./full-stack/zoo1/data:/data
-      - ./full-stack/zoo1/datalog:/datalog
+      - kafka:/zoo1/data
+      - kafka:/zoo1/datalog
 
   zoonavigator-web:
     image: elkozmon/zoonavigator-web:0.5.1
@@ -88,7 +88,7 @@ services:
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
-      - ./full-stack/kafka1/data:/var/lib/kafka/data
+      - kafka:/var/lib/kafka/data
     depends_on:
       - zoo1
 
@@ -217,6 +217,8 @@ services:
 
 volumes:
   consul_data:
+    driver: local
+  kafka:
     driver: local
 networks:
   cluster:

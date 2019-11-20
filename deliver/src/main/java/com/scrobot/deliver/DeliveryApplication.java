@@ -1,6 +1,5 @@
-package com.scrobot.kafkadelivery;
+package com.scrobot.deliver;
 
-import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
@@ -9,17 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactoryUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @SpringBootApplication
-public class KafkadeliveryApplication {
+public class DeliveryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KafkadeliveryApplication.class, args);
+		SpringApplication.run(DeliveryApplication.class, args);
 	}
 
 	@Bean
