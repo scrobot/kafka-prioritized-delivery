@@ -26,11 +26,28 @@ public class DeliveryApplication {
 	}
 
 	@Bean
-	public NewTopic topic() {
-		return TopicBuilder.name("test")
-			.assignReplicas(0, Arrays.asList(0, 1))
-			.assignReplicas(1, Arrays.asList(1, 2))
-			.assignReplicas(2, Arrays.asList(2, 0))
+	public NewTopic lowDeliverPriorityTopic() {
+		return TopicBuilder.name("low_deliver_priority")
+			.partitions(3)
+			.replicas(3)
+			.config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+			.build();
+	}
+
+	@Bean
+	public NewTopic MediumDeliverPriorityTopic() {
+		return TopicBuilder.name("medium_deliver_priority")
+			.partitions(3)
+			.replicas(3)
+			.config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+			.build();
+	}
+
+	@Bean
+	public NewTopic HighDeliverPriorityTopic() {
+		return TopicBuilder.name("high_deliver_priority")
+			.partitions(3)
+			.replicas(3)
 			.config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
 			.build();
 	}

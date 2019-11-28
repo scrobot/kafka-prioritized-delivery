@@ -8,7 +8,12 @@ spring:
         port: 8500
         instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
         serviceName: service-${spring.application.name}
-        healthCheckPath: ${management.server.servlet.context-path}/health
+        healthCheckPath: /actuator
         healthCheckInterval: 15s
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 server:
   port: 8001

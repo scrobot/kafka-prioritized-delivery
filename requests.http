@@ -1,0 +1,59 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+GET http://localhost:8001/api/v1/messages/all
+Accept: application/json
+
+###
+
+POST http://localhost:8001/api/v1/messages/create
+Content-Type: application/json
+
+{
+  "id": "sdaasdasd",
+  "weight": 1
+}
+
+###
+
+POST http://localhost:8011/query
+Content-Type: application/json
+
+{
+  "ksql": "SELECT * FROM NEW_MESSAGES;",
+  "streamsProperties": {
+    "ksql.streams.auto.offset.reset": "earliest"
+  }
+}
+
+###
+
+POST http://localhost:8011/ksql
+Content-Type: application/json
+
+{
+  "ksql": "CREATE STREAM NEW_MESSAGES (id VARCHAR, weight BIGINT, createAt VARCHAR) WITH (KAFKA_TOPIC='messages_2', VALUE_FORMAT='JSON');"
+
+}
+
+###
+
+POST http://localhost:8011/ksql
+Content-Type: application/json
+
+{
+  "ksql": "DESCRIBE EXTENDED MESSAGES_3;"
+
+}
+
+###
+
+GET http://localhost:8011/status/stream/MESSAGES/create
+Accept: application/json
+
+###
