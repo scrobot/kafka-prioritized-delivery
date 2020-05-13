@@ -4,6 +4,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+mongodb-data/
+docker-config/
+esdata/
+tmp/
 
 ### STS ###
 .apt_generated

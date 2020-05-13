@@ -1,6 +1,9 @@
 spring:
   application:
-    name: deliver-service
+    name: receiver-service
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/events?authSource=admin&authMechanism=SCRAM-SHA-1
   cloud:
     consul:
       discovery:
@@ -11,14 +14,11 @@ spring:
         healthCheckPath: ${management.server.servlet.context-path}/actuator/health
         healthCheckInterval: 15s
   kafka:
-    producer:
+    consumer:
       bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      properties:
-        schema.registry.url: http://localhost:8081
+      group-id: fat_topic_consumers
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 server:
-  port: 8002
-
-kafka:
-  topic-sender-type: Thin # Fat/Thin
+  port: 8003

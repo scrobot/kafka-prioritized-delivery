@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: frontend
+  cloud:
+    consul:
+      discovery:
+        hostname: localhost
+        port: 7999
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        serviceName: service-${spring.application.name}
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/events?authSource=admin&authMechanism=SCRAM-SHA-1
+server:
+  port: 7999
