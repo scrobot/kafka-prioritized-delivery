@@ -48,7 +48,7 @@ services:
       - 8081:8081
     environment:
       - ADV_HOST=127.0.0.1
-      - EULA=https://dl.lenses.io/d/?id=0d5267c9-ffb0-48c4-a7c2-47b3e8ef73cc
+      - EULA=${EULA}
 
 volumes:
   consul_data:

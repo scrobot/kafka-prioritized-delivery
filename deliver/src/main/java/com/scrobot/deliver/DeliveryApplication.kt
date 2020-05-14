@@ -48,12 +48,24 @@ open class DeliveryApplication {
     @ExperimentalTime
     @PostConstruct
     fun generateMessages() {
-        println("Kafka topic generator type -----> $type")
+        // Генерируем небольшую нагрузку на "толстый" топик, чтобы проверить как происходит ребаланс консюмеров
+        Flux.interval(1.milliseconds.toJavaDuration())
+            .subscribe {
+                fatTopicProducerService?.sendMessage()
+            }
+    }
 
-        when(type) {
+
+    /**
+     * Если нужно поэкспериментировать с высокой нагрузкой на топики, и какая модель лучше работает, то запустите данный метод
+     * */
+    @ExperimentalTime
+    private fun generateHighLoadIntoKafka() {
+        when (type) {
             "Fat" -> for (i in 0..1000) {
                 Flux.interval(1.milliseconds.toJavaDuration())
                     .subscribe {
+                        // Генерируем нагрузку на "толстый" топик
                         fatTopicProducerService?.sendMessage()
                     }
             }
@@ -61,6 +73,7 @@ open class DeliveryApplication {
                 Flux.interval(1.milliseconds.toJavaDuration())
                     .map { i }
                     .subscribe {
+                        // Генерируем нагрузку на динамичное создание "тонких" топиков
                         thinTopicProducerService?.sendMessageToTopic(it)
                     }
             }
