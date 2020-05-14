@@ -41,7 +41,7 @@ services:
       - '8600:8600/udp'
 
   zoo1:
-    image: zookeeper:3.4.9
+    image: confluentinc/cp-zookeeper
     restart: unless-stopped
     hostname: zoo1
     ports:

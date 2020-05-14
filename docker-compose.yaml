@@ -2,44 +2,6 @@ version: '3.1'
 
 services:
 
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - 27017:27017
-    networks:
-      - mongo_cluster
-    volumes:
-      - mongodb:/data/db
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 9002:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-    networks:
-      - mongo_cluster
-
-  consul:
-    image: consul
-    volumes:
-      - consul_data:/bitnami/consul
-    networks:
-      - cluster
-    ports:
-      - '8300:8300'
-      - '8301:8301'
-      - '8301:8301/udp'
-      - '8500:8500'
-      - '8600:8600'
-      - '8600:8600/udp'
-
   lensesio-box:
     image: lensesio/box
     ports:
@@ -48,7 +10,18 @@ services:
       - 8081:8081
     environment:
       - ADV_HOST=127.0.0.1
-      - EULA=https://dl.lenses.io/d/?id=0d5267c9-ffb0-48c4-a7c2-47b3e8ef73cc
+      - EULA=${EULA}
+
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    networks:
+      - cluster
+    environment:
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+    ports:
+      - '5672:5672'
+      - '15672:15672'
 
 volumes:
   consul_data:
