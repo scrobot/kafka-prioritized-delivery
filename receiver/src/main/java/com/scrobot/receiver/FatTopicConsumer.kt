@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class FatTopicConsumer(
+    private val adapter: EventAdapter,
     private val repository: EventRepository
 ) {
 
@@ -17,10 +18,17 @@ class FatTopicConsumer(
     private val json = Json(JsonConfiguration.Stable)
 
     @KafkaListener(topics = ["fat_topic"], groupId = "fat_topic_consumers")
-    fun consume(message: String?) = message?.let {
+    fun persistEvent(message: String?) = message?.let {
         json.parse(Event.serializer(), it)
     }?.also {
         repository.save(it)
+    } ?: logger.info("empty message was received at ${System.currentTimeMillis()}")
+
+    @KafkaListener(topics = ["fat_topic"], groupId = "fat_topic_consumers")
+    fun consume(message: String?) = message?.let {
+        json.parse(Event.serializer(), it)
+    }?.also {
+        adapter.handleEvent(it)
     } ?: logger.info("empty message was received at ${System.currentTimeMillis()}")
 
 }
